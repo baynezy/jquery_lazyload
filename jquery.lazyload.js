@@ -21,10 +21,10 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
-            skip_invisible  : true,
-            sortable		: false,
-            sort_event		: "sort"
+            skip_invisible  : true
         };
+        
+        var selector = $(this).selector;
                 
         if(options) {
             /* Maintain BC for a couple of version. */
@@ -34,9 +34,17 @@
             }
             
             $.extend(settings, options);
+            
+	        // deal with special options
+	        if (typeof options == "string") {
+	        	if (options == "refresh") {
+	        		// update elements as we are refreshing them
+					elements = $(selector);
+		        	$(this).trigger(settings.event);
+		        	return; // stop processing as this is not the same as binding the events to the images
+	        	}
+	        }
         }
-        
-        var selector = $(this).selector;
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         var elements = this;
@@ -97,15 +105,6 @@
             }
         });
         
-        // if we want the images to be tested when a sort occurs then add that event
-        if (settings.sortable) {
-	        $(settings.container).bind(settings.sort_event, function(event) {
-	        	// update elements as they have been reordered
-				elements = $(selector);
-	        	$(this).trigger(settings.event);
-	        });
-        }
-
         /* Check if something appears when window is resized. */
         $(window).bind("resize", function(event) {
             $(settings.container).trigger(settings.event);

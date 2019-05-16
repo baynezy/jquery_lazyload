@@ -56,7 +56,7 @@
       <pre> $(document).ready(
 	function() {
 		$("#teams").tablesorter().bind("sortEnd",function() { 
-	        $(window).trigger("sort"); 
+	        $("img").lazyload("refresh");
 	    }); 
 	}
 );</pre>
@@ -265,15 +265,13 @@
   <script src="jquery.lazyload.js?v=1602" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
       $(function() {
-          $("img").lazyload({
-          	sortable: true
-          });
+          $("img").lazyload();
       });
       
 	$(document).ready(
 		function() {
 			$("#teams").tablesorter().bind("sortEnd",function() { 
-		        $(window).trigger("sort"); 
+		        $("img").lazyload("refresh");
 		    }); 
 		}
 	);
